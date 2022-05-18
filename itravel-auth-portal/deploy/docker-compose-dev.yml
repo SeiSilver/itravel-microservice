@@ -1,0 +1,42 @@
+version: '3.8'
+
+services:
+
+  eureka-server:
+    container_name: eureka_server
+    image: datpd57/eureka_server:1.0
+    ports:
+      - "8010:8010"
+    networks:
+      - app-network
+
+  mysql-server:
+    container_name: mysql_db
+    image: mysql:8.0.28
+    restart: always
+    volumes:
+      - ./mysql-local-data:/var/lib/mysql
+    ports:
+      - "5317:3306"
+    environment:
+      MYSQL_USER: itraveldev
+      MYSQL_PASSWORD: itravel2022
+      MYSQL_DATABASE: itraveldb
+      MYSQL_ROOT_PASSWORD: itravel2022
+    networks:
+      - app-network
+
+  rabbitmq:
+    image: rabbitmq:3.8-management
+    environment:
+      RABBITMQ_DEFAULT_USER: itraveldev
+      RABBITMQ_DEFAULT_PASS: itravel2022
+    ports:
+      - "5672:5672"
+      - "15672:15672"
+    networks:
+      - app-network
+
+networks:
+  app-network:
+    driver: bridge

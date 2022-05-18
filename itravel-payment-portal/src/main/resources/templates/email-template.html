@@ -1,0 +1,42 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/xhtml" lang="vn">
+
+<head>
+  <meta charset="utf-8"/>
+  <title>Email Template</title>
+  <style>
+    .center {
+      margin: auto;
+      width: 50%;
+      border: 2px solid black;
+      border-radius: 25px;
+      padding: 10px;
+    }
+  </style>
+</head>
+<body>
+<div class="center">
+  <h1 style="text-align: center">Welcome to iTravel</h1>
+  <hr>
+  <div style="padding-left: 15px; padding-right: 15px;">
+    <h2 th:text="${'Xin chào, ' + name}">Xin chào, quý khách</h2>
+
+    <div>Chúng tôi ghi nhận bạn đã sử dụng dịch vụ của chúng tôi vào lúc
+      <span th:text="${#dates.format(createdAt, 'dd MMM yyyy HH:mm')}"></span></div>
+    <br>
+    <div>Thông tin người sử dụng dịch vụ</div>
+    <div>Họ tên: <span th:text="${fullName}"></span></div>
+    <div>Số điện thoại: <span th:text="${phoneNumber}"></span></div>
+    <br>
+    <div>Nếu bạn không tiến hành bất cứ yêu cầu đặt dịch vụ nào, vui lòng liên hệ chúng tôi để xử lý sự cố.</div>
+    <div>Thông tin chi tiết: <span th:text="${orderLink}"></span></div>
+    <div>Chúc quý khách có trải nghiệm vui vẻ!</div>
+    <hr>
+    <h4>Trân trọng,</h4>
+    <div style="padding-bottom: 15px">iTravel</div>
+  </div>
+</div>
+
+</body>
+
+</html>

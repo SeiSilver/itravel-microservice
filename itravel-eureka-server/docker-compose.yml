@@ -1,0 +1,33 @@
+version: '3.8'
+
+services:
+
+  eureka-server:
+    container_name: eureka_server
+    image: datpd57/eureka_server:1.0
+    build:
+      context: .
+      dockerfile: eureka-server.dockerfile
+    environment:
+      EUREKA_SERVER_URL: http://itravel-api-portal-fptu.tk:8010/eureka/
+      EUREKA_HOSTNAME: eureka-server
+    ports:
+      - "8010:8010"
+    networks:
+      - app-network
+
+  rabbitmq:
+    image: rabbitmq:3.8-management
+    environment:
+      RABBITMQ_DEFAULT_USER: itraveldev
+      RABBITMQ_DEFAULT_PASS: itravel2022
+    ports:
+      - "25675:5672"
+      - "15872:15672"
+    networks:
+      - app-network
+
+networks:
+  app-network:
+    external:
+      name: itravel-network

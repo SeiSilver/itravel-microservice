@@ -1,0 +1,21 @@
+version: '3.8'
+
+services:
+
+  eureka-server:
+    container_name: eureka_server
+    image: datpd57/eureka_server:1.0
+    build:
+      context: ../
+      dockerfile: eureka-server.dockerfile
+    environment:
+      EUREKA_SERVER_URL: http://eureka-server:8010/eureka/
+      EUREKA_HOSTNAME: eureka-server
+    ports:
+      - "8010:8010"
+    networks:
+      - app-network
+
+networks:
+  app-network:
+    driver: bridge

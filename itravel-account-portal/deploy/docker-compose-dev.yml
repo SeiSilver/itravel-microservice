@@ -1,0 +1,59 @@
+version: '3.8'
+
+services:
+
+  auth-portal:
+    container_name: auth_portal
+    image: datpd57/auth_portal:1.0
+    ports:
+      - "8011:8011"
+    environment:
+      - DATABASE_URL=jdbc:mysql://mysql-server:3306/itraveldb
+      - DATABASE_USERNAME=itraveldev
+      - DATABASE_PASSWORD=itravel2022
+      - eureka.client.service-url.defaultZone=http://eureka-server:8010/eureka
+      - spring.profiles.active=local
+    depends_on:
+      - eureka-server
+    restart: on-failure
+    networks:
+      - app-network
+
+  eureka-server:
+    container_name: eureka_server
+    image: datpd57/eureka_server:1.0
+    ports:
+      - "8010:8010"
+    networks:
+      - app-network
+
+  mysql-server:
+    container_name: mysql_db
+    image: mysql:8.0.28
+    restart: always
+    volumes:
+      - ./mysql-local-data:/var/lib/mysql
+    ports:
+      - "5317:3306"
+    environment:
+      MYSQL_USER: itraveldev
+      MYSQL_PASSWORD: itravel2022
+      MYSQL_DATABASE: itraveldb
+      MYSQL_ROOT_PASSWORD: itravel2022
+    networks:
+      - app-network
+
+  rabbitmq:
+    image: rabbitmq:3.8-management
+    environment:
+      RABBITMQ_DEFAULT_USER: itraveldev
+      RABBITMQ_DEFAULT_PASS: itravel2022
+    ports:
+      - "5672:5672"
+      - "15672:15672"
+    networks:
+      - app-network
+
+networks:
+  app-network:
+    driver: bridge
